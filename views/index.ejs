@@ -1,0 +1,173 @@
+<html>
+
+  <head>
+  
+    <title>HO App</title>
+    <script src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
+    <script src="javascripts/bundle.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+  <body ng-app="app" ng-controller="HomeCtrl">
+
+    <ui-view></ui-view>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    
+
+
+
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2016</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <!-- start of /home template. -->
+    <script type="text/ng-template" id="/home.html">
+      <br> list page<br>
+      <a href="#/post">post<a/>
+      <br><br>
+      <div ng-repeat="applicant in applicants">
+        <a href="#/applicants/{{$index}}">
+          <!--
+          :: used for one-time data binding of static data. This is faster, and we don't want to dynamically update at this point.
+          !-->
+          {{::applicant.title}}
+        </a>
+      </div>
+    </script>
+    <!-- end /home template -->
+
+    <!-- start of /applicants template -->
+    <script type="text/ng-template" id="/applicants.html">
+      <div class="applicants-header">
+        <br> description page<br>
+        <span>{{::applicant.title}}</span>
+        <span>{{::applicant.employment}}</span>
+        <a href="#applicants/{{::applicant.index}}/apply">apply<a/>
+      </div>
+    </script>
+    <!-- end of /applicants template -->
+
+    <!-- start of Application template -->
+    <script type="text/ng-template" id="/apply.html">
+      <br> apply page<br>
+      {{::applicant.title}}
+      {{::applicant.employment}}
+    </script>
+    <!-- end of Application template -->
+
+    <!-- start of Post template -->
+    <script type="text/ng-template" id="/post.html">
+      <br> post page<br>
+      <br>
+      Form that sends data to <a href='#/post/review'>review</a> page for processing.
+
+      <form novalidate name="newpostform" class="simple-form">
+        Name: <input type="text" ng-model="data.name" required /><br />
+        E-mail: <input type="email" ng-model="data.email" /><br />
+        Description: <input type="text" ng-model="data.description" required /><br />
+        <input type="submit" ng-click="newpostform.$valid && submit(data)" value="Submit" />
+      </form>
+
+    </script>
+    <!-- end of Post template -->
+
+    <!-- start of Review template -->
+    <script type="text/ng-template" id="/review.html">
+    
+    <br> review page. Details data from alst page. Takes payment and submits data to database on sucsess. <br>
+      <p>
+        post: {{::posts[0].name}}
+        <br>
+        description: {{::posts[0].description}}
+      </p>
+      <form id="myCCForm" action="/order" method="post">
+        <input id="token" name="token" type="hidden" value="">
+        <div>
+            <label>
+                <span>Card Number</span>
+            </label>
+            <input id="ccNo" type="text" size="20" value="" autocomplete="off" required />
+        </div>
+        <div>
+            <label>
+                <span>Expiration Date (MM/YYYY)</span>
+            </label>
+            <input type="text" size="2" id="expMonth" required />
+            <span> / </span>
+            <input type="text" size="2" id="expYear" required />
+        </div>
+        <div>
+            <label>
+                <span>CVC</span>
+            </label>
+            <input id="cvv" size="4" type="text" value="" autocomplete="off" required />
+        </div>
+        <input type="submit" value="Submit Payment">
+    </form>
+
+    </script>
+    <!-- end of Review template -->
+
+  </body>
+
+</html>
